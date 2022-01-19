@@ -24,9 +24,9 @@ pub fn parse_args(config_path: &Path, cache_path: &Path) -> Args {
 		)
 		.after_help(config.as_str())
 		.arg(
-			Arg::with_name("FOLDERS")
+			Arg::new("FOLDERS")
 				.long("folders")
-				.short("f")
+				.short('f')
 				.help("Number of folders to display")
 				.takes_value(true)
 				.validator(|v| match v.parse::<u32>() {
@@ -35,14 +35,14 @@ pub fn parse_args(config_path: &Path, cache_path: &Path) -> Args {
 				}),
 		)
 		.arg(
-			Arg::with_name("absolute")
+			Arg::new("absolute")
 				.long("absolute")
-				.short("a")
+				.short('a')
 				.help("Show absolute file path")
 				.takes_value(false)
 				.conflicts_with("FOLDERS"),
 		)
-		.arg(Arg::with_name("PATH").help("The file path of the image").index(1))
+		.arg(Arg::new("PATH").help("The file path of the image").index(1))
 		.get_matches();
 
 	let file_path = matches.value_of("PATH").map(ToString::to_string);
