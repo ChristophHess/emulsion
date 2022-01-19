@@ -115,8 +115,10 @@ fn main() {
 				window_cache.win_w = window_defaults.win_w;
 				window_cache.win_x = window_defaults.win_x;
 			}
-			if window_cache.win_y < 20 {
+			let bottom = window_cache.win_y as i64 + window_cache.win_h as i64;
+			if bottom < 20 {
 				window_cache.win_y = window_defaults.win_y;
+				window_cache.win_h = window_defaults.win_h;
 			}
 		}
 		let pos = PhysicalPosition::new(window_cache.win_x, window_cache.win_y);
