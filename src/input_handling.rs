@@ -35,10 +35,10 @@ lazy_static! {
 	pub static ref DEFAULT_BINDINGS: HashMap<&'static str, Vec<&'static str>> = {
 		let mut m = HashMap::new();
 		m.insert(TOGGLE_FULLSCREEN_NAME, vec!["F11", "Return"]);
-		m.insert(ESCAPE_NAME, vec!["Escape"]);
+		m.insert(ESCAPE_NAME, vec!["Escape", "Q"]);
 		m.insert(IMG_NEXT_NAME, vec!["D", "Right", "PageDown"]);
 		m.insert(IMG_PREV_NAME, vec!["A", "Left", "PageUp"]);
-		m.insert(IMG_ORIG_NAME, vec!["Q", "1"]);
+		m.insert(IMG_ORIG_NAME, vec!["1"]);
 		m.insert(IMG_FIT_NAME, vec!["F"]);
 		m.insert(IMG_FIT_BEST_NAME, vec!["E"]);
 		m.insert(IMG_DEL_NAME, vec!["Delete"]);
