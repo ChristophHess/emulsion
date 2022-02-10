@@ -286,7 +286,8 @@ pub struct ImageCache {
 ///
 /// The basic idea is to have a few images already in the memory while an image is shown on the screen
 impl ImageCache {
-	const MAX_PENDING_REQUESTS: usize = 5;
+	// Originally 5
+	const MAX_PENDING_REQUESTS: usize = 1;
 
 	/// # Arguments
 	/// * `capacity` - Number of bytes. The last image loaded will be the one at which the allocated memory reaches or exceeds capacity
