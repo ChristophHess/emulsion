@@ -37,10 +37,10 @@ linux_mime_types = [
 	"image/x-icon",
 	"image/vnd.microsoft.icon",
 	"image/vnd.radiance",
-	"image/x‑portable‑bitmap",
-	"image/x‑portable‑graymap",
-	"image/x‑portable‑pixmap",
-	"image/x‑portable‑anymap"
+	"image/x-portable-bitmap",
+	"image/x-portable-graymap",
+	"image/x-portable-pixmap",
+	"image/x-portable-anymap"
 ]
 
 [workspace]
