@@ -50,7 +50,7 @@ pub fn parse_args(config_path: &Path, cache_path: &Path) -> Args {
 	let displayed_folders = if matches.is_present("absolute") {
 		Some(std::u32::MAX)
 	} else {
-		matches.value_of("FOLDERS").map(|s| s.parse::<u32>().unwrap())
+		matches.value_of("FOLDERS").map(|s| s.parse::<u32>().ok()).unwrap_or_default()
 	};
 
 	Args { file_path, displayed_folders }
