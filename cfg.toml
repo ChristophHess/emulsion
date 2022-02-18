@@ -1,0 +1,3 @@
+window = {start_fullscreen=false, start_maximized=true,show_bottom_bar=false,theme="dark"}
+# pub theme: Option<Theme>,
+# pub use_last_window_area: Option<bool>,
