@@ -214,8 +214,8 @@ fn main() {
 				}
 				Theme::Dark => {
 					picture_widget.set_bright_shade(0.11);
-					window.set_bg_color([0.03, 0.03, 0.03, 1.0]);
-					update_notification.set_bg_color([0.85, 0.85, 0.85, 1.0]);
+					window.set_bg_color([0.01, 0.01, 0.01, 1.0]);
+					update_notification.set_bg_color([0.1, 0.1, 0.1, 1.0]);
 					update_label.set_icon(Some(update_label_image.clone()));
 				}
 			}
@@ -389,7 +389,7 @@ fn make_update_notification(update_label: Rc<Label>) -> Rc<HorizontalLayoutConta
 	update_button.set_fixed_size(LogicalVector::new(100.0, 24.0));
 	update_button.set_horizontal_align(Alignment::Center);
 	update_button.set_on_click(|| {
-		open::that("https://arturkovacs.github.io/emulsion-website/").unwrap();
+		open::that("https://github.com/ChristophHess/emulsion").unwrap();
 	});
 
 	container.add_child(update_label);
