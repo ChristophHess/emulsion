@@ -23,10 +23,10 @@ pub fn parse_args(config_path: &Path, cache_path: &Path) -> Args {
 
 	let matches = Command::new("emulsion")
 		.version(version)
-		.author("Artur Barnabas <kovacs.artur.barnabas@gmail.com>")
+		.author("Christoph Hess <admin@ctrl-consulting.com>")
 		.about(
 			"A fast and minimalistic image viewer\n\
-			https://arturkovacs.github.io/emulsion-website/",
+			https://github.com/ChristophHess/emulsion",
 		)
 		.after_help(config)
 		.arg(
