@@ -154,7 +154,7 @@ pub struct PlaybackManager {
 
 impl PlaybackManager {
 	pub fn new() -> Self {
-		let cache_capaxity = match sys_info::mem_info() {
+		let cache_capacity = match sys_info::mem_info() {
 			Ok(value) => {
 				// value originally reported in KiB
 				((value.total / 8) * 1024) as isize
@@ -173,7 +173,7 @@ impl PlaybackManager {
 
 		PlaybackManager {
 			//playback_state: PlaybackState::Paused,
-			image_cache: ImageCache::new(cache_capaxity, thread_count),
+			image_cache: ImageCache::new(cache_capacity, thread_count),
 			folder_player: ImgSequencePlayer::new(),
 			image_player: ImgSequencePlayer::new(),
 		}
@@ -369,6 +369,7 @@ impl<P: Playback> ImgSequencePlayer<P> {
 			self.file_path,
 			self.load_request
 		);
+		self.playback_state = PlaybackState::Paused;
 		let is_paused = matches!(self.playback_state, PlaybackState::Paused);
 		let no_request = matches!(self.load_request, LoadRequest::None);
 		if !self.file_path.is_loaded() && no_request && is_paused {
