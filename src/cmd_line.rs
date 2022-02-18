@@ -1,5 +1,5 @@
 use crate::Version;
-use clap::{App, Arg};
+use clap::{Arg, Command};
 use std::path::Path;
 
 pub struct Args {
@@ -15,12 +15,12 @@ pub fn parse_args(config_path: &Path, cache_path: &Path) -> Args {
 		cache_path.to_string_lossy(),
 	);
 
-	let matches = App::new("emulsion")
+	let matches = Command::new("emulsion")
 		.version(Version::cargo_pkg_version().to_string().as_str())
-		.author("Artur Barnabas <kovacs.artur.barnabas@gmail.com>")
+		.author("Christoph Hess <admin@ctrl-consulting.com>")
 		.about(
 			"A fast and minimalistic image viewer\n\
-			https://arturkovacs.github.io/emulsion-website/",
+			https://github.com/ChristophHess/emulsion",
 		)
 		.after_help(config.as_str())
 		.arg(
