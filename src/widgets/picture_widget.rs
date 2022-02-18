@@ -321,7 +321,7 @@ impl PictureWidgetData {
 
 		let name = match file_path {
 			Some(file_path) => title_config.format_file_path(file_path),
-			None => "[ none ]".into(),
+			None => "[ ]".into(),
 		};
 		let title = format!("{}{}{}", name, playback, title_config.format_program_name());
 		window.set_title(title);
