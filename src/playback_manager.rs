@@ -5,6 +5,7 @@ use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use std::time::{Duration, Instant};
 
+use gelatin::NextUpdate;
 use rand::seq::SliceRandom;
 use rand::thread_rng;
 
@@ -158,6 +159,7 @@ impl PlaybackManager {
 
 		PlaybackManager {
 			//playback_state: PlaybackState::Paused,
+			// filename: None,
 			image_cache: ImageCache::new(cache_capacity, thread_count),
 			folder_player: ImgSequencePlayer::new(),
 			image_player: ImgSequencePlayer::new(),
@@ -241,7 +243,7 @@ impl PlaybackManager {
 		let display = window.display_mut();
 		let prev_file = self.folder_player.image_texture();
 		let next_update = self.folder_player.update_image(&display, &mut self.image_cache);
-		trace!("Folder player next update: {:?}", next_update);
+		// trace!("Folder player next update: {:?}", next_update);
 		let new_file = self.folder_player.image_texture();
 		let mut file_changed = prev_file.is_none() != new_file.is_none();
 		if let (Some(prev), Some(new)) = (prev_file, new_file) {
@@ -256,7 +258,8 @@ impl PlaybackManager {
 		}
 		let img_player_next_update =
 			self.image_player.update_image(&display, &mut self.image_cache);
-		trace!("Image player next update: {:?}", img_player_next_update);
+
+		// trace!("Image player next update: {:?}", img_player_next_update);
 		next_update.aggregate(img_player_next_update)
 	}
 }
@@ -339,11 +342,13 @@ impl<P: Playback> ImgSequencePlayer<P> {
 		display: &Display,
 		image_cache: &mut ImageCache,
 	) -> gelatin::NextUpdate {
-		trace!(
-			"Begin `update_image`. Curr image is: {:?}. Load request is {:?}",
-			self.file_path,
-			self.load_request
-		);
+		if self.load_request != LoadRequest::None {
+			trace!(
+				"Begin `update_image`. Curr image is: {:?}. Load request is {:?}",
+				self.file_path,
+				self.load_request
+			);
+		}
 		self.playback_state = PlaybackState::Paused;
 		let is_paused = matches!(self.playback_state, PlaybackState::Paused);
 		let no_request = matches!(self.load_request, LoadRequest::None);
@@ -375,6 +380,10 @@ impl<P: Playback> ImgSequencePlayer<P> {
 				LoadRequest::Jump(0) => {
 					// Waiting on current image to be loaded.
 					next_update = gelatin::NextUpdate::WaitUntil(few_millisecs_from_now);
+				}
+				// Stop loading neighbors when loading single image
+				LoadRequest::FilePath(_) => {
+					next_update = gelatin::NextUpdate::Latest;
 				}
 				_ => {
 					image_cache.prefetch_neighbors();
