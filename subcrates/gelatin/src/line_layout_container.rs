@@ -266,6 +266,7 @@ impl<Dim: PickDimension + 'static> Widget for LineLayoutContainer<Dim> {
 	}
 
 	fn handle_event(&self, event: &Event) {
+		// TODO: Check why there are 5 children on file drop
 		let children;
 		{
 			let borrowed = self.data.borrow();
