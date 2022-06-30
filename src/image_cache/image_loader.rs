@@ -6,7 +6,9 @@ use std::sync::mpsc::{channel, Receiver, Sender, TryRecvError};
 use std::sync::{Arc, Mutex};
 use std::thread;
 
-use gelatin::image::{self, gif::GifDecoder, png::PngDecoder, AnimationDecoder, ImageFormat};
+use gelatin::image::{
+	self, codecs::gif::GifDecoder, codecs::png::PngDecoder, AnimationDecoder, ImageFormat,
+};
 
 pub mod errors {
 	use gelatin::glium::texture;
@@ -154,7 +156,8 @@ pub fn load_gif(path: &Path, req_id: u32) -> Result<impl Iterator<Item = Result<
 /// Parse, render and gather an SVG into a ImageBuffer<Rgba>
 pub fn load_svg(path: &std::path::Path) -> Result<image::RgbaImage> {
 	let opt = usvg::Options::default();
-	let rtree = usvg::Tree::from_file(path, &opt)?;
+	let data = std::fs::read(&path)?;
+	let rtree = usvg::Tree::from_data(data.as_slice(), &opt.to_ref())?;
 	let size = rtree.svg_node().size;
 	let (width, height) = (size.width(), size.height());
 	// Scale to fit 4096
@@ -162,7 +165,17 @@ pub fn load_svg(path: &std::path::Path) -> Result<image::RgbaImage> {
 	let (width, height) = ((width * zoom) as u32, (height * zoom) as u32);
 	// These unwrapped Options are fine as long as the dimensions are correct
 	let mut pixmap = tiny_skia::Pixmap::new(width, height).unwrap();
-	resvg::render(&rtree, usvg::FitTo::Zoom(zoom as f32), pixmap.as_mut()).unwrap();
+	// tree: &usvg::Tree,
+	// fit_to: usvg::FitTo,
+	// transform: tiny_skia::Transform,
+	// pixmap: tiny_skia::PixmapMut,
+	resvg::render(
+		&rtree,
+		usvg::FitTo::Zoom(zoom as f32),
+		tiny_skia::Transform::default(),
+		pixmap.as_mut(),
+	)
+	.unwrap();
 	Ok(image::RgbaImage::from_raw(width, height, pixmap.take()).unwrap())
 }
 

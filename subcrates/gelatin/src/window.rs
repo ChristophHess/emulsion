@@ -147,7 +147,7 @@ impl Window {
 		let window = if let Some(app_id) = desc.app_id { window.with_app_id(app_id) } else { window };
 
 		let context =
-			glutin::ContextBuilder::new().with_gl_profile(glutin::GlProfile::Core).with_vsync(true);
+			glutin::ContextBuilder::new().with_gl_profile(glutin::GlProfile::Core).with_vsync(true).;
 		let display = glium::Display::new(window, context, &application.event_loop).unwrap();
 
 		if let Some(pos) = desc.position {
