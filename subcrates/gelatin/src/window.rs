@@ -133,9 +133,16 @@ impl Eq for Window {}
 
 impl Window {
 	pub fn new(application: &mut Application, desc: WindowDescriptor) -> Rc<Self> {
-		//use glium::glutin::window::Icon;
-		//let exe_parent = std::env::current_exe().unwrap().parent().unwrap().to_owned();
+		#[cfg(feature = "wayland")]
+		let window = glutin::window::WindowBuilder::new()
+			.with_title("Loading")
+			.with_fullscreen(None)
+			.with_decorations(false)
+			.with_inner_size(desc.size)
+			.with_window_icon(desc.icon)
+			.with_visible(desc.position.is_none());
 
+		#[cfg(not(feature = "wayland"))]
 		let window = glutin::window::WindowBuilder::new()
 			.with_title("Loading")
 			.with_fullscreen(None)
@@ -146,8 +153,13 @@ impl Window {
 		#[cfg(not(any(target_os = "macos", windows)))]
 		let window = if let Some(app_id) = desc.app_id { window.with_app_id(app_id) } else { window };
 
+		#[cfg(feature = "wayland")]
+		let context = glutin::ContextBuilder::new().with_gl_profile(glutin::GlProfile::Core);
+
+		#[cfg(not(feature = "wayland"))]
 		let context =
-			glutin::ContextBuilder::new().with_gl_profile(glutin::GlProfile::Core).with_vsync(true).;
+			glutin::ContextBuilder::new().with_gl_profile(glutin::GlProfile::Core).with_vsync(true);
+
 		let display = glium::Display::new(window, context, &application.event_loop).unwrap();
 
 		if let Some(pos) = desc.position {

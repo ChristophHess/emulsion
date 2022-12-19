@@ -239,7 +239,7 @@ impl PlaybackManager {
 		&self.folder_player.file_path
 	}
 
-	pub fn update_image(&mut self, window: &Window) -> gelatin::NextUpdate {
+	pub fn update_image(&mut self, window: &Window) -> NextUpdate {
 		let display = window.display_mut();
 		let prev_file = self.folder_player.image_texture();
 		let next_update = self.folder_player.update_image(&display, &mut self.image_cache);
