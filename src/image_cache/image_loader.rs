@@ -139,7 +139,9 @@ pub fn detect_orientation(path: &Path) -> std::result::Result<Orientation, exif:
 
 pub fn simple_load_image(path: &Path, image_format: ImageFormat) -> Result<image::RgbaImage> {
 	let reader = BufReader::new(fs::File::open(path)?);
-	Ok(image::load(reader, image_format)?.into_rgba8())
+	let mut image_reader = image::ImageReader::with_format(reader, image_format);
+	image_reader.no_limits();
+	Ok(image_reader.decode()?.into_rgba8())
 }
 
 /// Returns an iterator over the animation frames of a GIF file
