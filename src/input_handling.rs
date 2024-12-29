@@ -30,12 +30,13 @@ pub static PAN_LEFT_NAME: &str = "pan_left";
 pub static PAN_RIGHT_NAME: &str = "pan_right";
 pub static PAN_UP_NAME: &str = "pan_up";
 pub static PAN_DOWN_NAME: &str = "pan_down";
+pub static EXIT: &str = "exit";
 
 lazy_static! {
 	pub static ref DEFAULT_BINDINGS: HashMap<&'static str, Vec<&'static str>> = {
 		let mut m = HashMap::new();
 		m.insert(TOGGLE_FULLSCREEN_NAME, vec!["F11", "Return"]);
-		m.insert(ESCAPE_NAME, vec!["Escape", "Q"]);
+		m.insert(ESCAPE_NAME, vec!["Escape"]);
 		m.insert(IMG_NEXT_NAME, vec!["D", "Right", "PageDown"]);
 		m.insert(IMG_PREV_NAME, vec!["A", "Left", "PageUp"]);
 		m.insert(IMG_ORIG_NAME, vec!["1"]);
@@ -49,6 +50,7 @@ lazy_static! {
 		m.insert(PLAY_PRESENT_RND_NAME, vec!["Alt+P"]);
 		m.insert(TOGGLE_ANTIALIAS_NAME, vec!["S"]);
 		m.insert(SET_AUTOMATIC_ANTIALIAS_NAME, vec!["Alt+S"]);
+		m.insert(EXIT, vec!["Q"]);
 		m
 	};
 }

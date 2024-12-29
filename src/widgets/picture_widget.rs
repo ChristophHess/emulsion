@@ -626,6 +626,9 @@ impl PictureWidget {
 				borrowed.render_validity.invalidate();
 			}
 		}
+		if triggered!(EXIT) {
+			request_exit();
+		}
 		if triggered!(IMG_COPY_NAME) {
 			if let LoadedImgPath::Loaded(path) = borrowed.playback_manager.shown_file_path().clone()
 			{
